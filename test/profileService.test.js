@@ -133,7 +133,7 @@ describe("Profile Service", function () {
                     throw done(err);
                 }
                 expect(res.status).to.equal(500);
-                expect(res.text).to.equal("Error while encryption");
+                expect(res.text).to.equal("Error while encryption: Invalid salt format");
 
                 return done();
             });

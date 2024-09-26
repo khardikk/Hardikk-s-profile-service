@@ -36,8 +36,13 @@ const verification = async (req,res) => {
     if(!req.body.salt){
         return res.status(404).send("Salt not found");
     }
+    const cryptingToken = req.body.salt;
+      // Add validation to check if the salt is valid
+      const saltRegex = /^\$2b\$10\$[A-Za-z0-9]{21}\.$/;
+      if (!saltRegex.test(cryptingToken)) {
+          return res.status(500).send("Error while encryption: Invalid salt format");
+      }
     try{
-        const cryptingToken = req.body.salt;
         const hash = sha512(cryptingToken + process.env.CHAIN_CODE);
         res.send( JSON.stringify({
             hash: hash
